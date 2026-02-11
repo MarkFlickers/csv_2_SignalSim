@@ -1,0 +1,1230 @@
+{
+  "version": 1.0,
+  "description": "test file with the same settings as test_obs2.xml",
+  "time": {
+    "type": "UTC",
+    "year": 2026,
+    "month": 1,
+    "day": 11,
+    "hour": 10,
+    "minute": 5,
+    "second": 30
+  },
+  "trajectory": {
+    "name": "pwconst_from_track",
+    "initPosition": {
+      "type": "LLA",
+      "format": "d",
+      "longitude": 37.20888095227384,
+      "latitude": 55.982891481274194,
+      "altitude": 0.0
+    },
+    "initVelocity": {
+      "type": "SCU",
+      "speedUnit": "mps",
+      "angleUnit": "degree",
+      "speed": 20.022397562542164,
+      "course": 3.3899811129412485
+    },
+    "trajectoryList": [
+      {
+        "type": "Const",
+        "time": 1.0
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 6.155519233175255e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022403016812408
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 6.155736414825697e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022408472762308
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -7.045071129032067
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.0224051216391
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 3.281688910306002e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022406566973086
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 3.2815707868394384e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022408012261785
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -5.0065805350838275
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 11.459438307639086
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 65.98661568476686
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02210198955684
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 3.421382882606849e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022131831713995
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 3.421558744776121e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02216167359732
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 3.420794149633366e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022191516523552
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 3.421722402663363e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.0222213581225
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 11.80972032289651
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022058089667468
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 7.949418090902327e-06
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02207380660301
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 7.951003965445125e-06
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022089522631067
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 6.242967042007592
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02201471384875
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 1.1558689720914117e-06
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022020826762986
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 1.1538462558746687e-06
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02202693972346
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -0.3764837585040368
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 14.293938625276745
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -32.16574124473141
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 14.098567435383998
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 32.63172502984111
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 10.378187985020672
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -0.1226723370185141
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 10.044820305612143
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -6.19306779426347
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 5.767215571682964
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -65.95355761224874
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 4.13193032168145
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -47.73201222487853
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 3.6133048242013994
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -52.73191944748157
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 5.355785431416589
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -8.149191361005478
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 8.378837661763008
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -1.1365122263069338
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02203368537456
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -2.6246716515743174e-06
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022024512214642
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -2.62243258930539e-06
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.0220153397712
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -2.6245645585731836e-06
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02200616700266
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -2.626470745781262e-06
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.021996994697314
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -2.6249085749441292e-06
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02198782074339
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -1.805136694958378
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022026374447222
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -4.898372913776143
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022059838857956
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -4.0350396222177665
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022090256726802
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -6.8233512227255915
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022261792793888
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -3.821239852186409e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022230744244624
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -3.821209315901797e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02219969604865
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -3.821313134722004e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022168647114256
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -3.821282609806076e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022137598533202
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -3.8212968547668424e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02210654994156
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -3.8212663127978885e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02207550170326
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -3.821325356057059e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022044453090416
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 1.7553145719404597
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022144511361464
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -0.9224646929411051
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022141283001854
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 22.99991291211802
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02218214340565
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 21.973173350296804
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022303029358255
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 5.960470625388211
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022339697767944
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -25.03905119733156
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022161079490267
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -37.05680458912963
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 10.761489406194693
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -38.51854437530386
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 10.880585067610504
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -20.894402069417765
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 12.710865920081762
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -14.398444250969078
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022517640007933
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 7.260194860236879e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02250968138148
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 7.259839605922025e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022501723924957
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 7.260315226176317e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02249376895414
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -22.72849931644555
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 11.019274812615091
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -16.173165123480487
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 8.431407801018144
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -29.994890326164978
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 10.377942646826487
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -37.97385481336198
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 8.895011282584347
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -27.53534074056168
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 10.610585140567252
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -15.944494945713046
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022343148136596
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 5.395080881953618e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02234723646499
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 6.014301802359455
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022314671287386
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 30.772434076889084
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022186769884257
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 17.684259455624357
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022093841110788
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 3.8263826013462676e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.022124906659123
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 3.827298951364355e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02215597079693
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 3.826867589395988e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02218703512024
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 3.826846494803249e-05
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.02221810116845
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -2.315209470440834
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 10.12637401215213
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 57.60870831026034
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 6.3032063872001105
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 52.60823824075936
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 17.78249467291851
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 13.952152146291041
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 62.83024001774381
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": 6.790164761996834
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 17.665876941957936
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      },
+      {
+        "type": "HorizontalTurn",
+        "time": 0.001,
+        "angle": -3.8540901995584704
+      },
+      {
+        "type": "ConstAcc",
+        "time": 0.001,
+        "speed": 20.11125224656866
+      },
+      {
+        "type": "Const",
+        "time": 0.998
+      }
+    ]
+  },
+  "ephemeris": {
+    "type": "RINEX",
+    "name": "BRDC00IGS_R_20260110000_01D_MN.rnx"
+  },
+  "output": {
+    "type": "observation",
+    "format": "RINEX",
+    "name": "test_move.o",
+    "interval": 1,
+    "config": {
+      "elevationMask": 3,
+      "maskOut": [
+        {
+          "system": "GPS",
+          "svid": [
+            10,
+            20,
+            21
+          ]
+        },
+        {
+          "system": "Galileo",
+          "svid": 3
+        }
+      ]
+    },
+    "systemSelect": [
+      {
+        "system": "GPS",
+        "signal": "L1CA",
+        "enable": true
+      },
+      {
+        "system": "GPS",
+        "signal": "L2C",
+        "enable": false
+      },
+      {
+        "system": "BDS",
+        "enable": true
+      },
+      {
+        "system": "BDS",
+        "signal": "B3I",
+        "enable": false
+      },
+      {
+        "system": "Galileo",
+        "enable": true
+      },
+      {
+        "system": "GLONASS",
+        "enable": false
+      }
+    ]
+  },
+  "power": {
+    "noiseFloor": -172,
+    "initPower": {
+      "unit": "dBHz",
+      "value": 47
+    },
+    "elevationAdjust": false,
+    "signalPower": [
+      {
+        "system": "GPS",
+        "powerValue": {
+          "time": 0,
+          "unit": "dBm",
+          "value": -125
+        }
+      },
+      {
+        "system": "GPS",
+        "svid": 4,
+        "powerValue": [
+          {
+            "time": 10,
+            "unit": "dBHz",
+            "value": 45
+          },
+          {
+            "time": 20,
+            "unit": "dBHz",
+            "value": 40
+          },
+          {
+            "time": 30,
+            "unit": "dBHz",
+            "value": 35
+          },
+          {
+            "time": 40,
+            "unit": "dBHz",
+            "value": 30
+          },
+          {
+            "time": 50,
+            "unit": "dBHz",
+            "value": 28
+          },
+          {
+            "time": 60,
+            "unit": "dBHz",
+            "value": 26
+          },
+          {
+            "time": 70,
+            "unit": "dBHz",
+            "value": 24
+          },
+          {
+            "time": 80,
+            "unit": "dBHz",
+            "value": 22
+          },
+          {
+            "time": 90,
+            "unit": "dBHz",
+            "value": 20
+          },
+          {
+            "time": 100,
+            "unit": "dBHz",
+            "value": -1
+          }
+        ]
+      }
+    ]
+  }
+}
