@@ -156,7 +156,7 @@ def convert_turn_angles(segs: List[Dict[str, Any]], unit: str) -> None:
     raise ValueError("turn-angle-unit must be 'degree' or 'rad'")
 
 
-def main() -> None:
+def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("csv", type=Path, help="Input CSV track (1 row per epoch).")
     ap.add_argument("json_out", type=Path, help="Output JSON.")
@@ -164,19 +164,13 @@ def main() -> None:
     ap.add_argument("--dt", type=float, default=1.0, help="Epoch spacing in seconds.")
     ap.add_argument("--eps-turn", type=float, default=0.001, help="Tiny HorizontalTurn duration (s).")
     ap.add_argument("--eps-acc", type=float, default=0.001, help="Tiny ConstAcc duration (s).")
-
-    ap.add_argument("--init-course-unit", choices=["degree", "rad"], default="degree",
-                    help="Unit for initVelocity.course (degree or rad).")
-    ap.add_argument("--turn-angle-unit", choices=["degree", "rad"], default="degree",
-                    help="Unit for HorizontalTurn.angle in trajectoryList (degree or rad).")
-
-    ap.add_argument("--angleunit-field", choices=["degree", "rad"], default="degree",
-                    help="Value to write into initVelocity.angleUnit field (some builds ignore it).")
-
+    ap.add_argument("--init-course-unit", choices=["degree", "rad"], default="degree")
+    ap.add_argument("--turn-angle-unit", choices=["degree", "rad"], default="degree")
+    ap.add_argument("--angleunit-field", choices=["degree", "rad"], default="degree")
     ap.add_argument("--name", type=str, default="csv_trajectory_pwconst")
-    ap.add_argument("--template", type=Path, default=None, help="Optional existing JSON: only replace 'trajectory'.")
+    ap.add_argument("--template", type=Path, default=None)
 
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
 
     if args.eps_turn + args.eps_acc >= args.dt:
         raise ValueError("eps_turn + eps_acc must be < dt. Reduce eps values.")
