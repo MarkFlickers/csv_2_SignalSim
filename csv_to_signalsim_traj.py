@@ -51,10 +51,15 @@ EARTH_R = 6371000.0  # meters
 def wrap180(deg: float) -> float:
     return ((deg + 180.0) % 360.0) - 180.0
 
-
+prev_ang = 0.0
 def course_deg(east_m: float, north_m: float) -> float:
     """Course clockwise from north, degrees [0, 360)."""
-    ang = math.degrees(math.atan2(east_m, north_m))
+    global prev_ang
+    if((east_m == 0) and (north_m == 0)):
+        ang = prev_ang
+    else:
+        ang = math.degrees(math.atan2(east_m, north_m))
+    prev_ang = ang
     return (ang + 360.0) % 360.0
 
 
@@ -117,15 +122,16 @@ def build_pwconst_segments(speed: np.ndarray,
         used = 0.0
 
         d_course = wrap180(tgt_course - cur_course)
-        if abs(d_course) > 1e-12 and eps_turn > 0:
-            segs.append({"type": "HorizontalTurn", "time": float(eps_turn), "angle": float(d_course)})
-            cur_course = (cur_course + d_course) % 360.0
-            used += eps_turn
 
         if abs(tgt_speed - cur_speed) > 1e-12 and eps_acc > 0:
             segs.append({"type": "ConstAcc", "time": float(eps_acc), "speed": float(tgt_speed)})
             cur_speed = tgt_speed
             used += eps_acc
+
+        if abs(d_course) > 1e-8 and eps_turn > 0:
+            segs.append({"type": "HorizontalTurn", "time": float(eps_turn), "angle": float(d_course)})
+            cur_course = (cur_course + d_course) % 360.0
+            used += eps_turn
 
         t_rem = dt - used
         if t_rem < 0:
