@@ -99,7 +99,7 @@ def read_track_csv(path: Path, order: str) -> Tuple[np.ndarray, np.ndarray, np.n
 
     c0 = df.iloc[:, 0].astype(float).to_numpy()
     c1 = df.iloc[:, 1].astype(float).to_numpy()
-    alt = df.iloc[:, 2].astype(float).to_numpy() if df.shape[1] >= 3 else np.zeros_like(c0)
+    alt = df.iloc[:, 2].astype(float).to_numpy() if df.shape[1] >= 3 else None
 
     if order == "latlon":
         lat, lon = c0, c1
@@ -119,6 +119,11 @@ def estimate_speed_course_vert_speed(
 
     lat = np.deg2rad(lat_deg)
     lon = np.deg2rad(lon_deg)
+    if alt is None:
+        alt = np.zeros_like(lat)
+        no_vertical = True
+    else:
+        no_vertical = False
 
     speed_hor = []
     course = []
@@ -140,6 +145,8 @@ def estimate_speed_course_vert_speed(
         course.append(course_deg(e, n))
         speed_vert.append(u / dt)
 
+    if no_vertical == True:
+        speed_vert = np.zeros_like(speed_vert)
     return np.asarray(speed_hor), np.asarray(course), np.asarray(speed_vert)
 
 
@@ -166,15 +173,15 @@ def build_pwconst_segments(speed: np.ndarray,
 
         d_course = wrap180(tgt_course - cur_course)
 
-        if abs(tgt_speed - cur_speed) > 1e-12 and eps_acc > 0:
-            segs.append({"type": "ConstAcc", "time": float(eps_acc), "speed": float(tgt_speed)})
-            cur_speed = tgt_speed
-            used += eps_acc
-
         if abs(d_course) > 1e-8 and eps_turn > 0:
             segs.append({"type": "HorizontalTurn", "time": float(eps_turn), "angle": float(d_course)})
             cur_course = (cur_course + d_course) % 360.0
             used += eps_turn
+
+        if abs(tgt_speed - cur_speed) > 1e-12 and eps_acc > 0:
+            segs.append({"type": "ConstAcc", "time": float(eps_acc), "speed": float(tgt_speed)})
+            cur_speed = tgt_speed
+            used += eps_acc
 
         if abs(tgt_vert_speed - cur_vert_speed) > 1e-12 and eps_acc > 0:
             segs.append({"type": "VerticalAcc", "time": float(eps_acc), "speed": float(tgt_vert_speed)})
@@ -226,8 +233,8 @@ def main(argv=None) -> None:
 
     args = ap.parse_args(argv)
 
-    if args.eps_turn + args.eps_acc >= args.dt:
-        raise ValueError("eps_turn + eps_acc must be < dt. Reduce eps values.")
+    if args.eps_turn + 2 * args.eps_acc >= args.dt:
+        raise ValueError("eps_turn + 2*eps_acc must be < dt.")
 
     lat, lon, alt = read_track_csv(args.csv, args.order)
     speed, course, vertical_speed = estimate_speed_course_vert_speed(lat, lon, alt, args.dt)
@@ -239,6 +246,7 @@ def main(argv=None) -> None:
     # Init course: compute from first interval in degrees, then convert if requested
     init_course_deg = float(course[0]) if len(course) else 0.0
     init_course = convert_course(init_course_deg, args.init_course_unit)
+    init_vert_speed = vertical_speed[0]
 
     trajectory = {
         "name": args.name,
@@ -247,7 +255,7 @@ def main(argv=None) -> None:
             "format": "d",
             "longitude": float(lon[0]),
             "latitude": float(lat[0]),
-            "altitude": float(alt[0]),
+            "altitude": float(0 if alt is None else alt[0]),
         },
         "initVelocity": {
             "type": "SCU",
@@ -255,6 +263,7 @@ def main(argv=None) -> None:
             "angleUnit": args.angleunit_field,
             "speed": float(speed[0]) if len(speed) else 0.0,
             "course": float(init_course),
+            "up": float(init_vert_speed),
         },
         "trajectoryList": segs,
     }
