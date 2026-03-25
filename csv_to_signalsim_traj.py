@@ -150,24 +150,30 @@ def estimate_speed_course_vert_speed(
     return np.asarray(speed_hor), np.asarray(course), np.asarray(speed_vert)
 
 
-def build_pwconst_segments(speed: np.ndarray,
+def build_pwconst_segments(hor_speed: np.ndarray,
                            course: np.ndarray,
                            vert_speed: np.ndarray,
                            dt: float,
                            eps_turn: float,
                            eps_acc: float) -> List[Dict[str, Any]]:
-    if len(speed) == 0:
+    if len(hor_speed) == 0:
         return [{"type": "Const", "time": 0.0}]
 
     segs: List[Dict[str, Any]] = []
-    cur_speed = float(speed[0])
+    cur_hor_speed = float(hor_speed[0])
     cur_course = float(course[0])
     cur_vert_speed = float(vert_speed[0])
+    segs.append({"type": "Const", "time": float(dt)})
 
-    for i in range(len(speed)):
-        tgt_speed = float(speed[i])
+    for i in range(1, len(hor_speed)):
+        tgt_hor_speed = float(hor_speed[i])
         tgt_course = float(course[i])
         tgt_vert_speed = float(vert_speed[i])
+        cur_course_speed = np.hypot(cur_hor_speed, cur_vert_speed)
+        if cur_hor_speed > 1e-9:
+            tgt_course_speed = cur_course_speed * (tgt_hor_speed/cur_hor_speed)
+        else:
+            tgt_course_speed = cur_course_speed
 
         used = 0.0
 
@@ -178,9 +184,14 @@ def build_pwconst_segments(speed: np.ndarray,
             cur_course = (cur_course + d_course) % 360.0
             used += eps_turn
 
-        if abs(tgt_speed - cur_speed) > 1e-12 and eps_acc > 0:
-            segs.append({"type": "ConstAcc", "time": float(eps_acc), "speed": float(tgt_speed)})
-            cur_speed = tgt_speed
+        if abs(tgt_course_speed - cur_course_speed) > 1e-12 and eps_acc > 0:
+            segs.append({"type": "ConstAcc", "time": float(eps_acc), "speed": float(tgt_course_speed)})
+            if cur_course_speed > 1e-12:
+                k = tgt_course_speed / cur_course_speed
+                cur_hor_speed *= k
+                cur_vert_speed *= k
+            else:
+                cur_hor_speed = tgt_hor_speed
             used += eps_acc
 
         if abs(tgt_vert_speed - cur_vert_speed) > 1e-12 and eps_acc > 0:
