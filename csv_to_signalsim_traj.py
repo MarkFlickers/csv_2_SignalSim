@@ -45,16 +45,50 @@ from typing import Any, Dict, List, Tuple
 import numpy as np
 import pandas as pd
 
-EARTH_R = 6371000.0  # meters
+a_wgs84 = 6378137.0
+e2_wgs84 = 0.00669437999014
 
+def R_ecef_to_enu(lat0: float, lon0: float) -> np.ndarray:
+    """ Матрица поворота ECEF->ENU в точке (lat0, lon0). """
+    sin_lat, cos_lat = np.sin(lat0), np.cos(lat0)
+    sin_lon, cos_lon = np.sin(lon0), np.cos(lon0)
+
+    return np.array([
+        [-sin_lon,            cos_lon,           0.0],
+        [-sin_lat*cos_lon, -sin_lat*sin_lon,  cos_lat],
+        [ cos_lat*cos_lon,  cos_lat*sin_lon,  sin_lat]
+    ])
+
+def llh_to_ecef(lat: float, lon: float, alt: float) -> Tuple[float, float, float]:
+    """LLH (рад, рад, м) -> ECEF (м)."""
+    sin_lat, cos_lat = np.sin(lat), np.cos(lat)
+    sin_lon, cos_lon = np.sin(lon), np.cos(lon)
+
+    N = a_wgs84 / np.sqrt(1.0 - e2_wgs84 * sin_lat**2)
+
+    x = (N + alt) * cos_lat * cos_lon
+    y = (N + alt) * cos_lat * sin_lon
+    z = (N * (1.0 - e2_wgs84) + alt) * sin_lat
+    return x, y, z
+
+def ecef_delta_to_enu(dx: float, dy: float, dz: float, lat0: float, lon0: float) -> Tuple[float, float, float]:
+    """ECEF-вектор (приращение) -> ENU-вектор в точке (lat0, lon0)."""
+    R = R_ecef_to_enu(lat0, lon0)
+    e, n, u = R @ np.array([dx, dy, dz])
+    return float(e), float(n), float(u)
 
 def wrap180(deg: float) -> float:
     return ((deg + 180.0) % 360.0) - 180.0
 
-
+prev_ang = 0.0
 def course_deg(east_m: float, north_m: float) -> float:
     """Course clockwise from north, degrees [0, 360)."""
-    ang = math.degrees(math.atan2(east_m, north_m))
+    global prev_ang
+    if((east_m == 0) and (north_m == 0)):
+        ang = prev_ang
+    else:
+        ang = math.degrees(math.atan2(east_m, north_m))
+    prev_ang = ang
     return (ang + 360.0) % 360.0
 
 
@@ -65,7 +99,7 @@ def read_track_csv(path: Path, order: str) -> Tuple[np.ndarray, np.ndarray, np.n
 
     c0 = df.iloc[:, 0].astype(float).to_numpy()
     c1 = df.iloc[:, 1].astype(float).to_numpy()
-    alt = df.iloc[:, 2].astype(float).to_numpy() if df.shape[1] >= 3 else np.zeros_like(c0)
+    alt = df.iloc[:, 2].astype(float).to_numpy() if df.shape[1] >= 3 else None
 
     if order == "latlon":
         lat, lon = c0, c1
@@ -76,55 +110,93 @@ def read_track_csv(path: Path, order: str) -> Tuple[np.ndarray, np.ndarray, np.n
     return lat, lon, alt
 
 
-def estimate_speed_course(lat_deg: np.ndarray, lon_deg: np.ndarray, dt: float) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Approximate EN displacements on a tangent plane:
-      north ≈ dlat * R
-      east  ≈ dlon * R * cos(lat_mid)
-    """
+def estimate_speed_course_vert_speed(
+    lat_deg: np.ndarray,
+    lon_deg: np.ndarray,
+    alt: np.ndarray,
+    dt: float
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+
     lat = np.deg2rad(lat_deg)
     lon = np.deg2rad(lon_deg)
+    if alt is None:
+        alt = np.zeros_like(lat)
+        no_vertical = True
+    else:
+        no_vertical = False
 
-    dlat = np.diff(lat)
-    dlon = np.diff(lon)
-    latm = 0.5 * (lat[:-1] + lat[1:])
+    speed_hor = []
+    course = []
+    speed_vert = []
 
-    north = dlat * EARTH_R
-    east = dlon * EARTH_R * np.cos(latm)
+    for i in range(len(lat) - 1):
+        x1, y1, z1 = llh_to_ecef(lat[i], lon[i], alt[i])
+        x2, y2, z2 = llh_to_ecef(lat[i + 1], lon[i + 1], alt[i + 1])
 
-    dist = np.sqrt(north * north + east * east)
-    speed = dist / dt
-    course = np.array([course_deg(e, n) for e, n in zip(east, north)], dtype=float)
-    return speed, course
+        dx, dy, dz = x2 - x1, y2 - y1, z2 - z1
+
+        lat_ref = 0.5 * (lat[i] + lat[i + 1])
+        lon_ref = 0.5 * (lon[i] + lon[i + 1])
+
+        e, n, u = ecef_delta_to_enu(dx, dy, dz, lat_ref, lon_ref)
+
+        dist_hor = np.hypot(e, n)
+        speed_hor.append(dist_hor / dt)
+        course.append(course_deg(e, n))
+        speed_vert.append(u / dt)
+
+    if no_vertical == True:
+        speed_vert = np.zeros_like(speed_vert)
+    return np.asarray(speed_hor), np.asarray(course), np.asarray(speed_vert)
 
 
-def build_pwconst_segments(speed: np.ndarray,
+def build_pwconst_segments(hor_speed: np.ndarray,
                            course: np.ndarray,
+                           vert_speed: np.ndarray,
                            dt: float,
                            eps_turn: float,
                            eps_acc: float) -> List[Dict[str, Any]]:
-    if len(speed) == 0:
+    if len(hor_speed) == 0:
         return [{"type": "Const", "time": 0.0}]
 
     segs: List[Dict[str, Any]] = []
-    cur_speed = float(speed[0])
+    cur_hor_speed = float(hor_speed[0])
     cur_course = float(course[0])
+    cur_vert_speed = float(vert_speed[0])
+    segs.append({"type": "Const", "time": float(dt)})
 
-    for i in range(len(speed)):
-        tgt_speed = float(speed[i])
+    for i in range(1, len(hor_speed)):
+        tgt_hor_speed = float(hor_speed[i])
         tgt_course = float(course[i])
+        tgt_vert_speed = float(vert_speed[i])
+        cur_course_speed = np.hypot(cur_hor_speed, cur_vert_speed)
+        if cur_hor_speed > 1e-9:
+            tgt_course_speed = cur_course_speed * (tgt_hor_speed/cur_hor_speed)
+        else:
+            tgt_course_speed = cur_course_speed
 
         used = 0.0
 
         d_course = wrap180(tgt_course - cur_course)
-        if abs(d_course) > 1e-12 and eps_turn > 0:
+
+        if abs(d_course) > 1e-8 and eps_turn > 0:
             segs.append({"type": "HorizontalTurn", "time": float(eps_turn), "angle": float(d_course)})
             cur_course = (cur_course + d_course) % 360.0
             used += eps_turn
 
-        if abs(tgt_speed - cur_speed) > 1e-12 and eps_acc > 0:
-            segs.append({"type": "ConstAcc", "time": float(eps_acc), "speed": float(tgt_speed)})
-            cur_speed = tgt_speed
+        if abs(tgt_course_speed - cur_course_speed) > 1e-12 and eps_acc > 0:
+            segs.append({"type": "ConstAcc", "time": float(eps_acc), "speed": float(tgt_course_speed)})
+            if cur_course_speed > 1e-12:
+                k = tgt_course_speed / cur_course_speed
+                cur_hor_speed *= k
+                cur_vert_speed *= k
+            else:
+                cur_hor_speed = tgt_hor_speed
+            used += eps_acc
+
+        if abs(tgt_vert_speed - cur_vert_speed) > 1e-12 and eps_acc > 0:
+            segs.append({"type": "VerticalAcc", "time": float(eps_acc), "speed": float(tgt_vert_speed)})
+            cur_vert_speed = tgt_vert_speed
             used += eps_acc
 
         t_rem = dt - used
@@ -156,7 +228,7 @@ def convert_turn_angles(segs: List[Dict[str, Any]], unit: str) -> None:
     raise ValueError("turn-angle-unit must be 'degree' or 'rad'")
 
 
-def main() -> None:
+def main(argv=None) -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("csv", type=Path, help="Input CSV track (1 row per epoch).")
     ap.add_argument("json_out", type=Path, help="Output JSON.")
@@ -164,26 +236,20 @@ def main() -> None:
     ap.add_argument("--dt", type=float, default=1.0, help="Epoch spacing in seconds.")
     ap.add_argument("--eps-turn", type=float, default=0.001, help="Tiny HorizontalTurn duration (s).")
     ap.add_argument("--eps-acc", type=float, default=0.001, help="Tiny ConstAcc duration (s).")
-
-    ap.add_argument("--init-course-unit", choices=["degree", "rad"], default="degree",
-                    help="Unit for initVelocity.course (degree or rad).")
-    ap.add_argument("--turn-angle-unit", choices=["degree", "rad"], default="degree",
-                    help="Unit for HorizontalTurn.angle in trajectoryList (degree or rad).")
-
-    ap.add_argument("--angleunit-field", choices=["degree", "rad"], default="degree",
-                    help="Value to write into initVelocity.angleUnit field (some builds ignore it).")
-
+    ap.add_argument("--init-course-unit", choices=["degree", "rad"], default="degree")
+    ap.add_argument("--turn-angle-unit", choices=["degree", "rad"], default="degree")
+    ap.add_argument("--angleunit-field", choices=["degree", "rad"], default="degree")
     ap.add_argument("--name", type=str, default="csv_trajectory_pwconst")
-    ap.add_argument("--template", type=Path, default=None, help="Optional existing JSON: only replace 'trajectory'.")
+    ap.add_argument("--template", type=Path, default=None)
 
-    args = ap.parse_args()
+    args = ap.parse_args(argv)
 
-    if args.eps_turn + args.eps_acc >= args.dt:
-        raise ValueError("eps_turn + eps_acc must be < dt. Reduce eps values.")
+    if args.eps_turn + 2 * args.eps_acc >= args.dt:
+        raise ValueError("eps_turn + 2*eps_acc must be < dt.")
 
     lat, lon, alt = read_track_csv(args.csv, args.order)
-    speed, course = estimate_speed_course(lat, lon, args.dt)
-    segs = build_pwconst_segments(speed, course, args.dt, args.eps_turn, args.eps_acc)
+    speed, course, vertical_speed = estimate_speed_course_vert_speed(lat, lon, alt, args.dt)
+    segs = build_pwconst_segments(speed, course, vertical_speed, args.dt, args.eps_turn, args.eps_acc)
 
     # Apply requested unit for turn angles
     convert_turn_angles(segs, args.turn_angle_unit)
@@ -191,6 +257,7 @@ def main() -> None:
     # Init course: compute from first interval in degrees, then convert if requested
     init_course_deg = float(course[0]) if len(course) else 0.0
     init_course = convert_course(init_course_deg, args.init_course_unit)
+    init_vert_speed = vertical_speed[0]
 
     trajectory = {
         "name": args.name,
@@ -199,7 +266,7 @@ def main() -> None:
             "format": "d",
             "longitude": float(lon[0]),
             "latitude": float(lat[0]),
-            "altitude": float(alt[0]),
+            "altitude": float(0 if alt is None else alt[0]),
         },
         "initVelocity": {
             "type": "SCU",
@@ -207,6 +274,7 @@ def main() -> None:
             "angleUnit": args.angleunit_field,
             "speed": float(speed[0]) if len(speed) else 0.0,
             "course": float(init_course),
+            "up": float(init_vert_speed),
         },
         "trajectoryList": segs,
     }
